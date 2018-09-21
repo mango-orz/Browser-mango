@@ -31,7 +31,7 @@ class MyWebChromeClient extends WebChromeClient {
 
     private final XWebViewCallback mCallback;
 
-    public MyWebChromeClient(XWebViewCallback callback) {
+    MyWebChromeClient(XWebViewCallback callback) {
         mCallback = callback;
     }
 

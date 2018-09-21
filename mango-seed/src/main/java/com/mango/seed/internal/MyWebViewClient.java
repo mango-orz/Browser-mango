@@ -27,13 +27,13 @@ import com.mango.seed.client.OnPageCallback;
  * @author tic
  * created on 18-9-21
  */
-public class MyWebViewClient extends WebViewClient {
+class MyWebViewClient extends WebViewClient {
 
     private static final String TAG = MyWebViewClient.class.getSimpleName();
 
     private final XWebViewCallback mCallback;
 
-    public MyWebViewClient(XWebViewCallback callback) {
+    MyWebViewClient(XWebViewCallback callback) {
         mCallback = callback;
     }
 
