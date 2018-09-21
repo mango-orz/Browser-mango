@@ -16,7 +16,7 @@ public interface XWebViewCallback {
      *
      * @param callback c
      */
-    void setOnLoadPageCallback(OnPageCallback callback);
+    void setOnPageCallback(OnPageCallback callback);
 
     /**
      * 添加ChromeClient 相关UI回调

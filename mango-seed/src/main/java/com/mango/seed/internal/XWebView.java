@@ -2,7 +2,6 @@ package com.mango.seed.internal;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -14,6 +13,8 @@ import com.mango.seed.client.OnPageCallback;
 import java.util.regex.Pattern;
 
 /**
+ * 原生Webkit实现
+ *
  * @author tic
  * created on 18-9-21
  */
@@ -26,11 +27,6 @@ public class XWebView extends WebView implements XWebViewCallback {
 
     public XWebView(Context context) {
         super(context);
-        setup();
-    }
-
-    public XWebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
         setup();
     }
 
@@ -63,7 +59,7 @@ public class XWebView extends WebView implements XWebViewCallback {
     }
 
     @Override
-    public void setOnLoadPageCallback(OnPageCallback callback) {
+    public void setOnPageCallback(OnPageCallback callback) {
         mOnPageCallback = callback;
     }
 
