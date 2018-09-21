@@ -1,4 +1,4 @@
-package com.mango.seed.view;
+package com.mango.seed.internal;
 
 /**
  * 腾讯TBS
