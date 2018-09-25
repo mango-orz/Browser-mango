@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="nav_url">
+        <item>baidu.com</item>
+        <item>en.wikipedia.org</item>
+        <item>facebook.com</item>
+        <item>mnggo.net</item>
+        <item>bing.com</item>
+    </string-array>
+
+    <string-array name="nav_title">
+        <item>baidu</item>
+        <item>wikipedia</item>
+        <item>facebook</item>
+        <item>mnggo</item>
+        <item>bing</item>
+    </string-array>
+</resources>

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.browser.mango.entities.History;
 import com.browser.mango.entities.Marker;
 import com.browser.mango.entities.MarkerFolder;
+import com.browser.mango.entities.Nav;
 
 /**
  * @author tic
@@ -19,7 +20,7 @@ import com.browser.mango.entities.MarkerFolder;
         History.class,
         Marker.class,
         MarkerFolder.class,
-
+        Nav.class,
 }, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -30,6 +31,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MarkerDao markerDao();
 
     public abstract MarkerFolderDao markerFolderDao();
+
+    public abstract NavDao navDao();
 
     public static void init(Context context) {
         if (sInstance == null) {

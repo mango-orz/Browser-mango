@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.browser.mango.dao.AppDatabase;
 import com.browser.mango.model.BrowserModel;
+import com.browser.mango.model.NavModel;
 import com.browser.mango.utils.RxJava;
 
 /**
@@ -36,6 +37,7 @@ public class AppModule {
         RxJava.create()
                 .observable(e -> {
                     AppDatabase.init(application);
+                    new NavModel().init(application);
                     mApp.sBrowserModel = new BrowserModel();
                 })
                 .subscribeOn()

@@ -9,4 +9,13 @@
         <item name="android:windowTranslucentStatus">false</item>
     </style>
 
+    <style name="Text">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Text.small" parent="Text">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

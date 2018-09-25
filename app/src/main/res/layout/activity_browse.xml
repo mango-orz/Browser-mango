@@ -5,12 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.BrowseActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/container_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toTopOf="@id/ll_action_bar">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edit_search"
@@ -18,7 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/selector_search_bar"
+            android:hint="@string/hint_search"
             android:lines="1"
+            android:padding="10dp"
             android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -29,20 +35,22 @@
             android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="45dp"
             android:text="Mango"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="32sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@id/edit_search"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
-        <!-- 内容导航页 -->
-        <FrameLayout
-            android:id="@+id/container_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </FrameLayout>
+        <!-- 内容导航页 -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_search"/>
     </android.support.constraint.ConstraintLayout>
 
     <FrameLayout
