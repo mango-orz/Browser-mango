@@ -170,7 +170,6 @@ public class BrowserModel {
                 // no related app installed
                 Log.i(TAG, "No Activity found with:" + parse.toString());
             }
-
         }
     };
 

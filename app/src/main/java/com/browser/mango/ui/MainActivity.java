@@ -16,6 +16,7 @@ import com.browser.mango.R;
 import com.browser.mango.model.BrowserModel;
 import com.browser.mango.utils.InputMethods;
 import com.browser.mango.utils.Security;
+import com.mango.seed.WebpManager;
 
 /**
  * @author tic
@@ -42,15 +43,6 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
     private void setValue() {
         mModel = AppModule.provideBrowser();
         mModel.bind(this);
-
-//        mContainer.postDelayed(() -> {
-//            mDefaultView.setVisibility(View.GONE);
-//            View webView = mModel.addNewPage("https://baidu.com");
-//            if (Utilities.isNotNull(webView)) {
-//                mContainer.addView(webView);
-//            }
-//        }, 1000L);
-
     }
 
     private void setView() {
@@ -73,6 +65,9 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
             }
             return false;
         });
+
+        findViewById(R.id.iv_forward).setOnClickListener(this);
+        findViewById(R.id.iv_go_back).setOnClickListener(this);
     }
 
     private void loadUrl(String url) {
@@ -114,6 +109,24 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.iv_forward: {
+                WebpManager page = mModel.getCurrentPage();
+                if (page.canForward()) {
+                    page.forward();
+                } else {
+                    // home --> web page
+                }
+            }
+            break;
+            case R.id.iv_go_back: {
+                WebpManager page = mModel.getCurrentPage();
+                if (page.canGoBack()) {
+                    page.goBack();
+                } else {
+                    // go back to home
+                }
+            }
+            break;
             default:
                 break;
         }
