@@ -65,4 +65,8 @@ public class WebpManager {
     public void goBack() {
         mWebView.goBack();
     }
+
+    public String getUrl() {
+        return mWebView.getUrl();
+    }
 }

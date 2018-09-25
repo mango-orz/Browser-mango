@@ -94,7 +94,7 @@ class MyWebViewClient extends WebViewClient {
         if (url.startsWith("about:") || url.startsWith("chrome:")) {
             return false;
         }
-        if(url.startsWith("http:") || url.startsWith("https:")) {
+        if (url.startsWith("http:") || url.startsWith("https:")) {
             view.loadUrl(url);
         } else {
             // app Intent action
@@ -207,13 +207,10 @@ class MyWebViewClient extends WebViewClient {
             // in the foreground.
             Log.e("MY_APP_TAG", "System killed the WebView rendering process " +
                     "to reclaim memory. Recreating...");
-//                if (mWebView != null) {
-//                    ViewGroup webViewContainer =
-//                            (ViewGroup) findViewById(R.id.my_web_view_container);
-//                    webViewContainer.removeView(mWebView);
-//                    mWebView.destroy();
-//                    mWebView = null;
-//                }
+            OnPageCallback callback = mCallback.getOnPageCallback();
+            if (Utilities.isNotNull(callback)) {
+                callback.onRenderProcessCrash(view);
+            }
             // By this point, the instance variable "mWebView" is guaranteed
             // to be null, so it's safe to reinitialize it.
             // The app continues executing.

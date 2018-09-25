@@ -1,11 +1,15 @@
 package com.browser.mango.ui;
 
 import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,9 @@ import com.browser.mango.utils.Security;
 public class MainActivity extends BaseCompatActivity implements View.OnClickListener {
 
     private View mDefaultView;
+    /**
+     * 网页容器
+     */
     private ViewGroup mContainer;
     private AppCompatEditText mSearchView;
 
@@ -42,6 +49,7 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
     private void setValue() {
         mModel = AppModule.provideBrowser();
         mModel.bind(this);
+        mModel.setCallback(mPageCallback);
     }
 
     private void setView() {
@@ -89,6 +97,55 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
         @Override
         public void afterTextChanged(Editable s) {
 
+        }
+    };
+
+    private BrowserModel.Callbacks mPageCallback = new BrowserModel.Callbacks() {
+
+        @Override
+        public void onPageStarted(String url, Bitmap favicon) {
+
+        }
+
+        @Override
+        public void onPageFinished(String url) {
+
+        }
+
+        @Override
+        public void onProgressChanged(int progress) {
+
+        }
+
+        @Override
+        public void onReceivedTitle(String title) {
+
+        }
+
+        @Override
+        public void onReceivedIcon(Bitmap icon) {
+
+        }
+
+        @Override
+        public void onReceivedError(int errorCode, CharSequence description, String failingUrl) {
+
+        }
+
+        @Override
+        public void onReload(String url) {
+            loadUrl(url);
+        }
+
+        @Override
+        public void onAppUriDetected(Uri parse) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, parse);
+                startActivity(intent);
+            } catch (Exception e) {
+                // no related app installed
+                Log.i(BrowserModel.TAG, "No Activity found with:" + parse.toString());
+            }
         }
     };
 

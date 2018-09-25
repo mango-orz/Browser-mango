@@ -70,4 +70,5 @@ public interface OnPageCallback {
      */
     void updateVisitedHistory(WebView view, String url, boolean isReload);
 
+    void onRenderProcessCrash(WebView view);
 }
