@@ -1,6 +1,7 @@
 package com.mango.seed.internal;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.mango.seed.Utilities;
 import com.mango.seed.XWebViewCallback;
+import com.mango.seed.client.ChromeCallback;
 import com.mango.seed.client.OnPageCallback;
 
 /**
@@ -55,7 +57,6 @@ class MyWebViewClient extends WebViewClient {
         if (Utilities.isNotNull(callback)) {
             callback.onPageFinished(view, url);
         }
-
     }
 
     @Override
@@ -93,7 +94,15 @@ class MyWebViewClient extends WebViewClient {
         if (url.startsWith("about:") || url.startsWith("chrome:")) {
             return false;
         }
-        view.loadUrl(url);
+        if(url.startsWith("http:") || url.startsWith("https:")) {
+            view.loadUrl(url);
+        } else {
+            // app Intent action
+            ChromeCallback callback = mCallback.getChromeCallback();
+            if (Utilities.isNotNull(callback)) {
+                callback.onAppUriDetected(Uri.parse(url));
+            }
+        }
         return true;
     }
 

@@ -2,10 +2,12 @@ package com.browser.mango.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
@@ -26,6 +28,8 @@ import com.mango.seed.client.OnPageCallback;
  * created on 18-9-21
  */
 public class BrowserModel {
+
+    private static final String TAG = BrowserModel.class.getSimpleName();
 
     private Context mContext;
 
@@ -155,6 +159,18 @@ public class BrowserModel {
         @Override
         public Bitmap getDefaultVideoPoster() {
             return null;
+        }
+
+        @Override
+        public void onAppUriDetected(Uri parse) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, parse);
+                mActivity.startActivity(intent);
+            } catch (Exception e) {
+                // no related app installed
+                Log.i(TAG, "No Activity found with:" + parse.toString());
+            }
+
         }
     };
 

@@ -56,4 +56,11 @@ public interface ChromeCallback {
      * @return
      */
     Bitmap getDefaultVideoPoster();
+
+    /**
+     * 应用URI跳转
+     *
+     * @param parse
+     */
+    void onAppUriDetected(Uri parse);
 }

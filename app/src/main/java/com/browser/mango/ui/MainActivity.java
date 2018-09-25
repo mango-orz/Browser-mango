@@ -14,6 +14,7 @@ import com.browser.mango.AppModule;
 import com.browser.mango.BaseCompatActivity;
 import com.browser.mango.R;
 import com.browser.mango.model.BrowserModel;
+import com.browser.mango.utils.InputMethods;
 import com.browser.mango.utils.Security;
 
 /**
@@ -66,6 +67,7 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
         mSearchView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == KeyEvent.KEYCODE_ENTER
                     || actionId == KeyEvent.KEYCODE_ENDCALL) {
+                InputMethods.hide(MainActivity.this);
                 String content = mSearchView.getEditableText().toString();
                 loadUrl(content);
             }
