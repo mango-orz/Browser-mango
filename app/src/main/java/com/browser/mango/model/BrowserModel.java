@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
@@ -13,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.google.common.base.Preconditions;
+import com.mango.seed.Utilities;
 import com.mango.seed.WebpManager;
 import com.mango.seed.client.ChromeCallback;
 import com.mango.seed.client.OnPageCallback;
@@ -32,6 +34,15 @@ public class BrowserModel {
      * 页面缓存
      */
     private ArrayMap<String, WebpManager> mPages = new ArrayMap<>();
+
+    private WebpManager mCurrentPage = null;
+
+    public static final int OPEN_CURRENT = 1;
+    /**
+     * 新窗口打开
+     */
+    public static final int OPEN_NEW_BLANK = 2;
+    public static final int OPEN_BLANK_BACKGROUND = 3;
 
     public BrowserModel() {
     }
@@ -53,15 +64,34 @@ public class BrowserModel {
      * @return WebView
      */
     public View addNewPage(String url) {
+        return addNewPage(url, OPEN_CURRENT);
+    }
+
+    public View addNewPage(String url, int type) {
+        if (TextUtils.isEmpty(url)) {
+            url = "blank";
+        }
+
+        if (!url.startsWith("http") && !url.startsWith("https")) {
+            // force https
+            url = "https://" + url;
+        }
+
         WebpManager manager = create();
         manager.loadUrl(url);
 
         mPages.put(url, manager);
+        mCurrentPage = manager;
+
+        if (type == OPEN_NEW_BLANK) {
+
+        }
+
         return manager.getWebView();
     }
 
     public boolean removePage(String url) {
-        return  mPages.remove(url) != null;
+        return mPages.remove(url) != null;
     }
 
     private WebpManager create() {
@@ -73,20 +103,32 @@ public class BrowserModel {
         return manager;
     }
 
+    public WebpManager getCurrentPage() {
+        return mCurrentPage;
+    }
+
     public boolean canForward() {
-        return false;
+        WebpManager page = getCurrentPage();
+        return Utilities.isNotNull(page) && page.canForward();
     }
 
     public boolean canGoback() {
-        return false;
+        WebpManager page = getCurrentPage();
+        return Utilities.isNotNull(page) && page.canGoBack();
     }
 
     public void forward() {
-
+        WebpManager page = getCurrentPage();
+        if (Utilities.isNotNull(page)) {
+            page.forward();
+        }
     }
 
     public void goback() {
-
+        WebpManager page = getCurrentPage();
+        if (Utilities.isNotNull(page)) {
+            page.goBack();
+        }
     }
 
     private ChromeCallback mChromeCallback = new ChromeCallback() {

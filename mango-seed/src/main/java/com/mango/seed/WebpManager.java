@@ -47,7 +47,22 @@ public class WebpManager {
     }
 
     public void loadUrl(String url) {
-
         mWebView.loadUrl(url);
+    }
+
+    public boolean canForward() {
+        return mWebView.canGoForward();
+    }
+
+    public boolean canGoBack() {
+        return mWebView.canGoBack();
+    }
+
+    public void forward() {
+        mWebView.goForward();
+    }
+
+    public void goBack() {
+        mWebView.goBack();
     }
 }

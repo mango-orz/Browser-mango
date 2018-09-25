@@ -9,7 +9,7 @@ import com.browser.mango.utils.RxJava;
  * @author tic
  * created on 18-9-21
  */
-class AppModule {
+public class AppModule {
 
     private static AppModule mApp;
 
