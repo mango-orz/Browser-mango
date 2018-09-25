@@ -103,6 +103,8 @@ def common = [:]
 common.buggly = "com.tencent.bugly:crashreport:$versions.buggly"
 common.fastjson = "com.alibaba:fastjson:$versions.fastjson"
 common.liulishuo_downloader = "com.liulishuo.filedownloader:library:1.6.9"
+common.circleIV = 'de.hdodenhof:circleimageview:2.2.0'
+deps.common = common
 
 def rx = [:]
 rx.android = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
