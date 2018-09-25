@@ -2,6 +2,7 @@ package com.browser.mango;
 
 import android.app.Application;
 
+import com.browser.mango.dao.AppDatabase;
 import com.browser.mango.model.BrowserModel;
 import com.browser.mango.utils.RxJava;
 
@@ -13,16 +14,20 @@ public class AppModule {
 
     private static AppModule mApp;
 
-    private BrowserModel browserModel;
+    private BrowserModel sBrowserModel;
 
     private AppModule(Application application) {
+    }
+
+    public static AppDatabase provideDB() {
+        return AppDatabase.get();
     }
 
     /**
      * 提供网页加载核心模块
      */
     public static BrowserModel provideBrowser() {
-        return mApp.browserModel;
+        return mApp.sBrowserModel;
     }
 
     public static void init(Application application) {
@@ -30,8 +35,8 @@ public class AppModule {
         // 异步加载全局组件
         RxJava.create()
                 .observable(e -> {
-                    mApp.browserModel = new BrowserModel();
-
+                    AppDatabase.init(application);
+                    mApp.sBrowserModel = new BrowserModel();
                 })
                 .subscribeOn()
                 .go();

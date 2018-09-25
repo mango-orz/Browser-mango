@@ -15,6 +15,9 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import com.browser.mango.AppModule;
+import com.browser.mango.dao.HistoryDao;
+import com.browser.mango.entities.History;
 import com.google.common.base.Preconditions;
 import com.mango.seed.Utilities;
 import com.mango.seed.WebpManager;
@@ -116,7 +119,7 @@ public class BrowserModel {
         return Utilities.isNotNull(page) && page.canForward();
     }
 
-    public boolean canGoback() {
+    public boolean canGoBack() {
         WebpManager page = getCurrentPage();
         return Utilities.isNotNull(page) && page.canGoBack();
     }
@@ -128,7 +131,7 @@ public class BrowserModel {
         }
     }
 
-    public void goback() {
+    public void goBack() {
         WebpManager page = getCurrentPage();
         if (Utilities.isNotNull(page)) {
             page.goBack();
@@ -206,7 +209,17 @@ public class BrowserModel {
 
         @Override
         public void updateVisitedHistory(WebView view, String url, boolean isReload) {
+            if (isReload) {
+                // update visit time
+                HistoryDao dao = AppModule.provideDB().historyDao();
+                History history = dao.loadByUrl(url);
+                history.setDate(System.currentTimeMillis());
 
+                dao.update(history);
+            } else {
+                History history = new History(view.getTitle(), url, System.currentTimeMillis());
+                AppModule.provideDB().historyDao().insert(history);
+            }
         }
     };
 }

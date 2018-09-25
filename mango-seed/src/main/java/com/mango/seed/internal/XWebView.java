@@ -23,7 +23,7 @@ public class XWebView extends WebView implements XWebViewCallback {
     private static final Pattern WEBVIEW_VERSION_PATTERN = Pattern.compile("(Chrome/)([\\d\\.]+)\\s");
 
     private OnPageCallback mOnPageCallback;
-    private ChromeCallback mChromCallback;
+    private ChromeCallback mChromeCallback;
 
     public XWebView(Context context) {
         super(context);
@@ -36,7 +36,7 @@ public class XWebView extends WebView implements XWebViewCallback {
 
         WebSettings settings = getSettings();
         initializeSettings(settings);
-
+        
         if (Utilities.ATLEAST_O) {
             setRendererPriorityPolicy(RENDERER_PRIORITY_BOUND, true);
         }
@@ -65,12 +65,12 @@ public class XWebView extends WebView implements XWebViewCallback {
 
     @Override
     public void setChromeCallback(ChromeCallback callback) {
-        mChromCallback = callback;
+        mChromeCallback = callback;
     }
 
     @Override
     public ChromeCallback getChromeCallback() {
-        return mChromCallback;
+        return mChromeCallback;
     }
 
     @Override

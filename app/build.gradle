@@ -9,6 +9,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -34,6 +41,11 @@ dependencies {
 
     implementation deps.rx.android
     implementation deps.rx.java
+    implementation deps.arch.room
+    annotationProcessor deps.arch.room_compiler
+
+    implementation deps.arch.lifecycyle_java8
+    implementation deps.arch.lifecycyle_runtime
 
     implementation deps.google.guava
 }

@@ -16,7 +16,6 @@ import com.browser.mango.R;
 import com.browser.mango.model.BrowserModel;
 import com.browser.mango.utils.InputMethods;
 import com.browser.mango.utils.Security;
-import com.mango.seed.WebpManager;
 
 /**
  * @author tic
@@ -36,8 +35,8 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_main);
 
         setView();
-        setValue();
         setListener();
+        setValue();
     }
 
     private void setValue() {
@@ -50,7 +49,6 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
         mDefaultView = findViewById(R.id.container_home);
 
         mSearchView = findViewById(R.id.edit_search);
-
     }
 
     private void setListener() {
@@ -100,6 +98,11 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mModel.unBind();
@@ -110,18 +113,16 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
         int id = v.getId();
         switch (id) {
             case R.id.iv_forward: {
-                WebpManager page = mModel.getCurrentPage();
-                if (page.canForward()) {
-                    page.forward();
+                if (mModel.canForward()) {
+                    mModel.forward();
                 } else {
                     // home --> web page
                 }
             }
             break;
             case R.id.iv_go_back: {
-                WebpManager page = mModel.getCurrentPage();
-                if (page.canGoBack()) {
-                    page.goBack();
+                if (mModel.canGoBack()) {
+                    mModel.goBack();
                 } else {
                     // go back to home
                 }
