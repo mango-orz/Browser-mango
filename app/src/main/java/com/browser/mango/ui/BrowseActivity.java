@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,8 +21,10 @@ import com.browser.mango.AppModule;
 import com.browser.mango.BaseCompatActivity;
 import com.browser.mango.R;
 import com.browser.mango.entities.Nav;
+import com.browser.mango.model.ActionModel;
 import com.browser.mango.model.BrowserModel;
 import com.browser.mango.model.NavModel;
+import com.browser.mango.ui.adapter.BaseAdapter;
 import com.browser.mango.ui.adapter.NavigationAdapter;
 import com.browser.mango.utils.InputMethods;
 import com.browser.mango.utils.Security;
@@ -40,7 +43,6 @@ import io.reactivex.disposables.Disposable;
 @Security(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE})
 public class BrowseActivity extends BaseCompatActivity implements View.OnClickListener {
 
-    private View mDefaultView;
     /**
      * 网页容器
      */
@@ -50,6 +52,8 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     private NavigationAdapter mAdapter;
 
     private BrowserModel mModel;
+    private ActionModel mActionModel;
+
     private Disposable mDispose;
 
     @Override
@@ -58,39 +62,17 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_browse);
 
         setView();
-        setListener();
         setValue();
+        setListener();
         mDispose = Observable
                 .timer(1500L, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                }, Throwable::printStackTrace, this::postData);
-    }
-
-    private void setValue() {
-        mAdapter = new NavigationAdapter(getLayoutInflater());
-        mNavigation.setLayoutManager(new GridLayoutManager(this, 5));
-        mNavigation.setAdapter(mAdapter);
-    }
-
-    private void postData() {
-        mModel = AppModule.provideBrowser();
-        NavModel mNavModel = new NavModel();
-
-        mModel.bind(this);
-        mModel.setCallback(mPageCallback);
-        List<Nav> data = mNavModel.getRecentlyNav();
-        if (Utilities.isNotNull(data)) {
-            mAdapter.setData(data);
-        }
+                }, Throwable::printStackTrace, this::loadNav);
     }
 
     private void setView() {
-        mContainer = findViewById(R.id.container_web_view);
-        mNavigation = findViewById(R.id.rv_navigation);
-        mDefaultView = findViewById(R.id.container_home);
-
-        mSearchView = findViewById(R.id.edit_search);
+        mContainer = findViewById(R.id.container);
     }
 
     private void setListener() {
@@ -113,6 +95,48 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         findViewById(R.id.iv_menu).setOnClickListener(this);
     }
 
+    private void setValue() {
+        mAdapter = new NavigationAdapter(getLayoutInflater());
+        mAdapter.setOnItemClickListener(mOnNavClickListener);
+        mModel = AppModule.provideBrowser();
+        mModel.bind(this);
+        mModel.setCallback(mPageCallback);
+
+        mActionModel = new ActionModel();
+
+        loadActionBar(getLayoutInflater());
+        loadHomePage(getLayoutInflater());
+    }
+
+    private void loadHomePage(LayoutInflater layoutInflater) {
+        View homeView = mModel.inflateHomeLayout(layoutInflater, mContainer);
+        if (mContainer.getChildCount() > 0) {
+            mContainer.removeAllViews();
+        }
+        mModel.destroyCurrentPage();
+        mSearchView = homeView.findViewById(R.id.edit_search);
+        mNavigation = homeView.findViewById(R.id.rv_navigation);
+
+        mNavigation.setLayoutManager(new GridLayoutManager(this, 5));
+        mNavigation.setAdapter(mAdapter);
+
+        mContainer.addView(homeView);
+    }
+
+    private void loadActionBar(LayoutInflater layoutInflater) {
+        View actionView = mActionModel.inflate(layoutInflater, mContainer);
+        ((ViewGroup) findViewById(R.id.ll_action_bar)).addView(actionView);
+    }
+
+    private void loadNav() {
+        NavModel mNavModel = new NavModel();
+        List<Nav> data = mNavModel.getRecentlyNav();
+        if (Utilities.isNotNull(data)) {
+            mAdapter.setData(data);
+        }
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -120,9 +144,8 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
 
     private void loadUrl(String url) {
         View view = mModel.addNewPage(url);
+        mContainer.removeAllViews();
         mContainer.addView(view);
-
-        mDefaultView.setVisibility(View.GONE);
     }
 
     private TextWatcher mTextWatcher = new TextWatcher() {
@@ -211,6 +234,17 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public void onBackPressed() {
+        if (mModel.canGoBack()) {
+            mModel.goBack();
+        } else if(mModel.getCurrentPage().getWebView() != null) {
+            loadHomePage(getLayoutInflater());
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
@@ -240,4 +274,9 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
                 break;
         }
     }
+
+    private BaseAdapter.OnItemClickListener<Nav> mOnNavClickListener = (view, position, data) -> {
+        String url = data.getUrl();
+        loadUrl(url);
+    };
 }

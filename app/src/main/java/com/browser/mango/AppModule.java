@@ -33,12 +33,12 @@ public class AppModule {
 
     public static void init(Application application) {
         mApp = new AppModule(application);
+        mApp.sBrowserModel = new BrowserModel();
         // 异步加载全局组件
         RxJava.create()
                 .observable(e -> {
                     AppDatabase.init(application);
                     new NavModel().init(application);
-                    mApp.sBrowserModel = new BrowserModel();
                 })
                 .subscribeOn()
                 .go();

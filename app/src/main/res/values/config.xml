@@ -7,6 +7,8 @@
         <item>facebook.com</item>
         <item>mnggo.net</item>
         <item>bing.com</item>
+        <item>github.com</item>
+        <item>amazon.com</item>
     </string-array>
 
     <string-array name="nav_title">
@@ -15,5 +17,7 @@
         <item>facebook</item>
         <item>mnggo</item>
         <item>bing</item>
+        <item>github</item>
+        <item>amazon</item>
     </string-array>
 </resources>

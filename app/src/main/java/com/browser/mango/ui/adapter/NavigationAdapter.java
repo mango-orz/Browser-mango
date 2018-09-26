@@ -1,6 +1,5 @@
 package com.browser.mango.ui.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class NavigationAdapter extends BaseAdapter<NavigationAdapter.ViewHolder,
         holder.title.setText(data.getTitle());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends BaseAdapter.BaseViewHolder {
         CircleImageView icon;
         TextView title;
 

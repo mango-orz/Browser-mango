@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_action_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_action_add"/>
+
+    <ImageView
+        android:id="@+id/iv_go_back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_media_previous"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_forward"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_media_next"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_marker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_collapse_arrow"/>
+
+    <ImageView
+        android:id="@+id/iv_menu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_menu"/>
+</LinearLayout>

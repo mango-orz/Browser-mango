@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Browser-mango</string>
+    <string name="app_name_mango">Mango</string>
     <string name="hint_search">Search or input website</string>
 </resources>

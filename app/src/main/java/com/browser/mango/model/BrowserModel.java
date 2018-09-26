@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
@@ -13,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.browser.mango.AppModule;
+import com.browser.mango.R;
 import com.browser.mango.dao.HistoryDao;
 import com.browser.mango.entities.History;
 import com.google.common.base.Preconditions;
@@ -103,6 +106,18 @@ public class BrowserModel {
         manager.setChromeCallback(mChromeCallback);
         manager.setOnPageCallback(mOnPageCallback);
         return manager;
+    }
+
+    public void destroyCurrentPage() {
+        WebpManager page = getCurrentPage();
+        if (Utilities.isNotNull(page)) {
+            View view = page.getWebView();
+            if (view instanceof WebView) {
+                ((WebView) view).destroy();
+                mPages.remove(page);
+            }
+            mCurrentPage = null;
+        }
     }
 
     public WebpManager getCurrentPage() {
@@ -240,6 +255,10 @@ public class BrowserModel {
 
     public void setCallback(Callbacks mCallback) {
         this.mCallback = mCallback;
+    }
+
+    public View inflateHomeLayout(LayoutInflater layoutInflater, ViewGroup container) {
+        return layoutInflater.inflate(R.layout.view_home, container, false);
     }
 
     public interface Callbacks {
