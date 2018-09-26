@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.BrowseActivity">
 
     <FrameLayout
@@ -12,6 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/ll_action_bar"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:progress="10"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/ll_action_bar"/>
 
     <!-- 底部action 栏-->
     <FrameLayout

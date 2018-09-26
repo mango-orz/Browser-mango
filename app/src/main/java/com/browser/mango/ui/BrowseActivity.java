@@ -6,36 +6,20 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.browser.mango.AppModule;
 import com.browser.mango.BaseCompatActivity;
 import com.browser.mango.R;
-import com.browser.mango.entities.Nav;
 import com.browser.mango.model.ActionModel;
 import com.browser.mango.model.BrowserModel;
-import com.browser.mango.model.NavModel;
-import com.browser.mango.ui.adapter.BaseAdapter;
-import com.browser.mango.ui.adapter.NavigationAdapter;
 import com.browser.mango.utils.InputMethods;
 import com.browser.mango.utils.Security;
-import com.mango.seed.Utilities;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import com.mango.seed.client.ErrorRes;
 
 /**
  * @author tic
@@ -47,14 +31,10 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
      * 网页容器
      */
     private ViewGroup mContainer;
-    private AppCompatEditText mSearchView;
-    private RecyclerView mNavigation;
-    private NavigationAdapter mAdapter;
+    private ProgressBar mProgressBar;
 
     private BrowserModel mModel;
     private ActionModel mActionModel;
-
-    private Disposable mDispose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,30 +44,14 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         setView();
         setValue();
         setListener();
-        mDispose = Observable
-                .timer(1500L, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                }, Throwable::printStackTrace, this::loadNav);
     }
 
     private void setView() {
         mContainer = findViewById(R.id.container);
+        mProgressBar = findViewById(R.id.progress);
     }
 
     private void setListener() {
-        mSearchView.setOnClickListener(this);
-        mSearchView.addTextChangedListener(mTextWatcher);
-        mSearchView.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == KeyEvent.KEYCODE_ENTER
-                    || actionId == KeyEvent.KEYCODE_ENDCALL) {
-                InputMethods.hide(BrowseActivity.this);
-                String content = mSearchView.getEditableText().toString();
-                loadUrl(content);
-            }
-            return false;
-        });
-
         findViewById(R.id.iv_forward).setOnClickListener(this);
         findViewById(R.id.iv_go_back).setOnClickListener(this);
         findViewById(R.id.iv_add).setOnClickListener(this);
@@ -96,8 +60,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     }
 
     private void setValue() {
-        mAdapter = new NavigationAdapter(getLayoutInflater());
-        mAdapter.setOnItemClickListener(mOnNavClickListener);
         mModel = AppModule.provideBrowser();
         mModel.bind(this);
         mModel.setCallback(mPageCallback);
@@ -105,22 +67,7 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         mActionModel = new ActionModel();
 
         loadActionBar(getLayoutInflater());
-        loadHomePage(getLayoutInflater());
-    }
-
-    private void loadHomePage(LayoutInflater layoutInflater) {
-        View homeView = mModel.inflateHomeLayout(layoutInflater, mContainer);
-        if (mContainer.getChildCount() > 0) {
-            mContainer.removeAllViews();
-        }
-        mModel.destroyCurrentPage();
-        mSearchView = homeView.findViewById(R.id.edit_search);
-        mNavigation = homeView.findViewById(R.id.rv_navigation);
-
-        mNavigation.setLayoutManager(new GridLayoutManager(this, 5));
-        mNavigation.setAdapter(mAdapter);
-
-        mContainer.addView(homeView);
+        loadHomePage();
     }
 
     private void loadActionBar(LayoutInflater layoutInflater) {
@@ -128,58 +75,33 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         ((ViewGroup) findViewById(R.id.ll_action_bar)).addView(actionView);
     }
 
-    private void loadNav() {
-        NavModel mNavModel = new NavModel();
-        List<Nav> data = mNavModel.getRecentlyNav();
-        if (Utilities.isNotNull(data)) {
-            mAdapter.setData(data);
-        }
+    private void loadHomePage() {
+        View view = mModel.addHomePage();
+        mContainer.removeAllViews();
+        mContainer.addView(view);
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    private void loadUrl(String url) {
+    public void loadUrl(String url) {
         View view = mModel.addNewPage(url);
         mContainer.removeAllViews();
         mContainer.addView(view);
     }
 
-    private TextWatcher mTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
     private BrowserModel.Callbacks mPageCallback = new BrowserModel.Callbacks() {
 
         @Override
         public void onPageStarted(String url, Bitmap favicon) {
-
+            mProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onPageFinished(String url) {
-
+            mProgressBar.setVisibility(View.GONE);
         }
 
         @Override
         public void onProgressChanged(int progress) {
-
+            mProgressBar.setProgress(progress);
         }
 
         @Override
@@ -194,7 +116,12 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
 
         @Override
         public void onReceivedError(int errorCode, CharSequence description, String failingUrl) {
-
+            switch (errorCode) {
+                case ErrorRes.CONNECTION_REFUSED:
+                    break;
+                default:
+                    break;
+            }
         }
 
         @Override
@@ -212,6 +139,12 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
                 Log.i(BrowserModel.TAG, "No Activity found with:" + parse.toString());
             }
         }
+
+        @Override
+        public void onSearchStart(String content) {
+            InputMethods.hide(BrowseActivity.this);
+            loadUrl(content);
+        }
     };
 
     @Override
@@ -222,9 +155,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
-        if (Utilities.isNotNull(mDispose)) {
-            mDispose.dispose();
-        }
     }
 
     @Override
@@ -237,8 +167,8 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         if (mModel.canGoBack()) {
             mModel.goBack();
-        } else if(mModel.getCurrentPage().getWebView() != null) {
-            loadHomePage(getLayoutInflater());
+        } else if (mModel.getCurrentPage().getWebView() != null) {
+            loadHomePage();
         } else {
             super.onBackPressed();
         }
@@ -274,9 +204,4 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
                 break;
         }
     }
-
-    private BaseAdapter.OnItemClickListener<Nav> mOnNavClickListener = (view, position, data) -> {
-        String url = data.getUrl();
-        loadUrl(url);
-    };
 }

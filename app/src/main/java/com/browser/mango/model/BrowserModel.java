@@ -5,9 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
@@ -15,9 +13,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.browser.mango.AppModule;
-import com.browser.mango.R;
 import com.browser.mango.dao.HistoryDao;
 import com.browser.mango.entities.History;
+import com.browser.mango.ui.view.HomeView;
 import com.google.common.base.Preconditions;
 import com.mango.seed.Utilities;
 import com.mango.seed.WebpManager;
@@ -108,7 +106,7 @@ public class BrowserModel {
         return manager;
     }
 
-    public void destroyCurrentPage() {
+    private void destroyCurrentPage() {
         WebpManager page = getCurrentPage();
         if (Utilities.isNotNull(page)) {
             View view = page.getWebView();
@@ -257,8 +255,11 @@ public class BrowserModel {
         this.mCallback = mCallback;
     }
 
-    public View inflateHomeLayout(LayoutInflater layoutInflater, ViewGroup container) {
-        return layoutInflater.inflate(R.layout.view_home, container, false);
+    public View addHomePage() {
+        destroyCurrentPage();
+        HomeView homeView = new HomeView(mCallback, mActivity.getLayoutInflater());
+        mCurrentPage = null;
+        return homeView.get();
     }
 
     public interface Callbacks {
@@ -277,5 +278,7 @@ public class BrowserModel {
         void onReload(String url);
 
         void onAppUriDetected(Uri parse);
+
+        void onSearchStart(String content);
     }
 }

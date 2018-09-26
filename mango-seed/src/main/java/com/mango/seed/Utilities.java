@@ -11,6 +11,7 @@ public class Utilities {
 
     public static final boolean ATLEAST_O = Build.VERSION.SDK_INT > Build.VERSION_CODES.O;
     public static final boolean ATLEAST_L = Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP;
+    public static final boolean ATLEAST_KITKAT = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT;
     public static final boolean ATLEAST_M = Build.VERSION.SDK_INT > Build.VERSION_CODES.M;
 
     public static boolean isNotNull(Object o) {

@@ -22,12 +22,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/edit_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_search_bar"
         android:hint="@string/hint_search"
+        android:inputType="none"
         android:lines="1"
         android:padding="10dp"
         android:singleLine="true"
