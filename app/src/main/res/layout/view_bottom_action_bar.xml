@@ -8,11 +8,11 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/iv_add"
+        android:id="@+id/ic_recents"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@mipmap/ic_action_add"/>
+        android:src="@mipmap/ic_recents"/>
 
     <ImageView
         android:id="@+id/iv_go_back"
@@ -43,4 +43,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:src="@mipmap/ic_menu"/>
+
 </LinearLayout>

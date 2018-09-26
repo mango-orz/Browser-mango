@@ -54,7 +54,7 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     private void setListener() {
         findViewById(R.id.iv_forward).setOnClickListener(this);
         findViewById(R.id.iv_go_back).setOnClickListener(this);
-        findViewById(R.id.iv_add).setOnClickListener(this);
+        findViewById(R.id.ic_recents).setOnClickListener(this);
         findViewById(R.id.iv_marker).setOnClickListener(this);
         findViewById(R.id.iv_menu).setOnClickListener(this);
     }
@@ -194,7 +194,7 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
                 }
             }
             break;
-            case R.id.iv_add:
+            case R.id.ic_recents:
                 break;
             case R.id.iv_marker:
                 break;
