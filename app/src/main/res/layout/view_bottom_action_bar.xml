@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/ic_recents"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@mipmap/ic_recents"/>
+        android:src="@drawable/ic_recents"/>
 
     <ImageView
         android:id="@+id/iv_go_back"
@@ -35,13 +38,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@mipmap/ic_collapse_arrow"/>
+        android:src="@drawable/ic_collapse_arrow"/>
 
     <ImageView
         android:id="@+id/iv_menu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@mipmap/ic_menu"/>
+        android:src="@drawable/ic_menu"/>
 
 </LinearLayout>

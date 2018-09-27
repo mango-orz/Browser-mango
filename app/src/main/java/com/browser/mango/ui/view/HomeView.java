@@ -15,6 +15,7 @@ import com.browser.mango.model.BrowserModel;
 import com.browser.mango.model.NavModel;
 import com.browser.mango.ui.adapter.BaseAdapter;
 import com.browser.mango.ui.adapter.NavigationAdapter;
+import com.browser.mango.ui.decoration.SpaceItemDecoration;
 import com.browser.mango.utils.AppPref;
 import com.mango.seed.Utilities;
 
@@ -53,6 +54,7 @@ public class HomeView implements View.OnClickListener, View.OnLongClickListener 
         mAdapter = new NavigationAdapter(mLayoutInflater);
         mAdapter.setOnItemClickListener(mOnNavClickListener);
 
+        mNavigation.addItemDecoration(new SpaceItemDecoration(20, 20));
         mNavigation.setLayoutManager(new GridLayoutManager(mRoot.getContext(), 5));
         mNavigation.setAdapter(mAdapter);
 
@@ -89,7 +91,7 @@ public class HomeView implements View.OnClickListener, View.OnLongClickListener 
 
     private void loadNav() {
         NavModel mNavModel = new NavModel();
-        List<Nav> data = mNavModel.getRecentlyNav();
+        List<Nav> data = mNavModel.getRecentlyNav(mRoot.getContext());
         if (Utilities.isNotNull(data)) {
             mAdapter.setData(data);
         }

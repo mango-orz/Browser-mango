@@ -12,7 +12,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.browser.mango.AppModule;
+import com.browser.mango.dao.AppDatabase;
 import com.browser.mango.dao.HistoryDao;
 import com.browser.mango.entities.History;
 import com.browser.mango.ui.view.HomeView;
@@ -52,7 +52,6 @@ public class BrowserModel {
 
     public void bind(Activity activity) {
         // 绑定 Activity 生命周期
-        // TODO 其他页面是否需要该组件
         this.mActivity = activity;
     }
 
@@ -225,16 +224,16 @@ public class BrowserModel {
 
         @Override
         public void updateVisitedHistory(WebView view, String url, boolean isReload) {
-            if (isReload) {
+            HistoryDao dao = AppDatabase.get(view.getContext()).historyDao();
+            History history = dao.loadByUrl(url);
+            if (Utilities.isNotNull(history)) {
+                // TODO limit today
                 // update visit time
-                HistoryDao dao = AppModule.provideDB().historyDao();
-                History history = dao.loadByUrl(url);
                 history.setDate(System.currentTimeMillis());
-
                 dao.update(history);
             } else {
-                History history = new History(view.getTitle(), url, System.currentTimeMillis());
-                AppModule.provideDB().historyDao().insert(history);
+                history = new History(view.getTitle(), url, System.currentTimeMillis());
+                dao.insert(history);
             }
         }
 
@@ -260,6 +259,17 @@ public class BrowserModel {
         HomeView homeView = new HomeView(mCallback, mActivity.getLayoutInflater());
         mCurrentPage = null;
         return homeView.get();
+    }
+
+    public boolean isHomePage() {
+        return mCurrentPage == null;
+    }
+
+    public void reload() {
+        WebpManager page = getCurrentPage();
+        if (Utilities.isNotNull(page)) {
+            page.reload();
+        }
     }
 
     public interface Callbacks {

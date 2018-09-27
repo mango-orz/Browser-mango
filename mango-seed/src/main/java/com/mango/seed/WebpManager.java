@@ -69,4 +69,8 @@ public class WebpManager {
     public String getUrl() {
         return mWebView.getUrl();
     }
+
+    public void reload() {
+        mWebView.reload();
+    }
 }

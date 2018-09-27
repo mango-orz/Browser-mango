@@ -2,7 +2,6 @@ package com.browser.mango.model;
 
 import android.content.Context;
 
-import com.browser.mango.AppModule;
 import com.browser.mango.R;
 import com.browser.mango.dao.AppDatabase;
 import com.browser.mango.dao.NavDao;
@@ -17,13 +16,12 @@ import java.util.List;
  */
 public class NavModel {
 
-    private AppDatabase mDb;
 
     public NavModel() {
-        mDb = AppModule.provideDB();
     }
 
     public void init(Context context) {
+        AppDatabase mDb = AppDatabase.get(context);
         NavDao dao = mDb.navDao();
         if (dao.count() > 0) {
             return;
@@ -38,7 +36,8 @@ public class NavModel {
         mDb.close();
     }
 
-    public List<Nav> getRecentlyNav() {
+    public List<Nav> getRecentlyNav(Context context) {
+        AppDatabase mDb = AppDatabase.get(context);
         List<Nav> data = mDb.navDao().loadAll();
         mDb.close();
         return data;

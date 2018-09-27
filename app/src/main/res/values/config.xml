@@ -9,6 +9,17 @@
         <item>bing.com</item>
         <item>github.com</item>
         <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
+        <item>amazon.com</item>
     </string-array>
 
     <string-array name="nav_title">
@@ -18,6 +29,17 @@
         <item>mnggo</item>
         <item>bing</item>
         <item>github</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
+        <item>amazon</item>
         <item>amazon</item>
     </string-array>
 </resources>

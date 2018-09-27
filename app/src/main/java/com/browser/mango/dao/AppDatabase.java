@@ -24,8 +24,6 @@ import com.browser.mango.entities.Nav;
 }, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static AppDatabase sInstance;
-
     public abstract HistoryDao historyDao();
 
     public abstract MarkerDao markerDao();
@@ -34,16 +32,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract NavDao navDao();
 
-    public static void init(Context context) {
-        if (sInstance == null) {
-            synchronized (AppDatabase.class) {
-                sInstance = build(context);
-            }
-        }
-    }
-
-    public static AppDatabase get() {
-        return sInstance;
+    public static AppDatabase get(Context context) {
+        return build(context);
     }
 
     private static AppDatabase build(Context context) {

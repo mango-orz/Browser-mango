@@ -2,7 +2,6 @@ package com.browser.mango;
 
 import android.app.Application;
 
-import com.browser.mango.dao.AppDatabase;
 import com.browser.mango.model.BrowserModel;
 import com.browser.mango.model.NavModel;
 import com.browser.mango.utils.AppPref;
@@ -21,10 +20,6 @@ public class AppModule {
     private AppModule(Application application) {
     }
 
-    public static AppDatabase provideDB() {
-        return AppDatabase.get();
-    }
-
     /**
      * 提供网页加载核心模块
      */
@@ -38,9 +33,7 @@ public class AppModule {
         // 异步加载全局组件
         RxJava.create()
                 .observable(e -> {
-                    AppDatabase.init(application);
                     new NavModel().init(application);
-
                     AppPref.setAppInited(application, true);
                 })
                 .subscribeOn()
