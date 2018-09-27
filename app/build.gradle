@@ -49,6 +49,7 @@ dependencies {
     implementation deps.arch.lifecycyle_java8
     implementation deps.arch.lifecycyle_runtime
 
-    implementation deps.common.circleIV
     implementation deps.google.guava
+    implementation deps.common.circleIV
+    implementation deps.common.dialogs
 }
