@@ -1,6 +1,7 @@
 package com.mango.seed;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 /**
@@ -14,8 +15,15 @@ public class Utilities {
     public static final boolean ATLEAST_KITKAT = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT;
     public static final boolean ATLEAST_M = Build.VERSION.SDK_INT > Build.VERSION_CODES.M;
 
+    private static final String SHARED_PREFERENCES_KEY = "com.mango.seed.prefs";
+
     public static boolean isNotNull(Object o) {
         return o != null;
+    }
+
+    public static SharedPreferences getPrefs(Context context) {
+        return context.getSharedPreferences(
+                SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
     }
 
     public static String getAppCacheDir(Context context) {

@@ -15,6 +15,7 @@ import com.browser.mango.model.BrowserModel;
 import com.browser.mango.model.NavModel;
 import com.browser.mango.ui.adapter.BaseAdapter;
 import com.browser.mango.ui.adapter.NavigationAdapter;
+import com.browser.mango.utils.AppPref;
 import com.mango.seed.Utilities;
 
 import java.util.List;
@@ -54,6 +55,14 @@ public class HomeView implements View.OnClickListener, View.OnLongClickListener 
 
         mNavigation.setLayoutManager(new GridLayoutManager(mRoot.getContext(), 5));
         mNavigation.setAdapter(mAdapter);
+
+        if (AppPref.getAppInited(mRoot.getContext())) {
+            loadNav();
+        } else {
+            mTimer = Observable.timer(1500L, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(time -> {}, Throwable::printStackTrace, this::loadNav);
+        }
     }
 
     private void setView() {
@@ -87,10 +96,6 @@ public class HomeView implements View.OnClickListener, View.OnLongClickListener 
     }
 
     public View get() {
-        mTimer = Observable.timer(500L, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(time -> {
-                }, Throwable::printStackTrace, this::loadNav);
         return mRoot;
     }
 
