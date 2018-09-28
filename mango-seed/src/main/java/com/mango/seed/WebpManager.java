@@ -73,4 +73,8 @@ public class WebpManager {
     public void reload() {
         mWebView.reload();
     }
+
+    public void destroy() {
+        mWebView.destroy();
+    }
 }

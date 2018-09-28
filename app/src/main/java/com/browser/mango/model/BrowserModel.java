@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
@@ -21,6 +22,8 @@ import com.mango.seed.Utilities;
 import com.mango.seed.WebpManager;
 import com.mango.seed.client.ChromeCallback;
 import com.mango.seed.client.OnPageCallback;
+
+import java.util.Set;
 
 /**
  * 网页浏览管理器
@@ -56,7 +59,11 @@ public class BrowserModel {
     }
 
     public void unBind() {
-        // TODO 回收webView资源
+        Set<String> keys = mPages.keySet();
+        for (String url : keys) {
+            WebpManager web = mPages.get(url);
+            web.destroy();
+        }
     }
 
     /**
@@ -89,7 +96,16 @@ public class BrowserModel {
 
         }
 
-        return manager.getWebView();
+        View webView = manager.getWebView();
+        // wrap refresh view
+        final SwipeRefreshLayout swipeRefreshLayout = new SwipeRefreshLayout(mActivity);
+        swipeRefreshLayout.setEnabled(true);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            manager.reload();
+            webView.postDelayed(()-> swipeRefreshLayout.setRefreshing(false), 500L);
+        });
+        swipeRefreshLayout.addView(webView);
+        return swipeRefreshLayout;
     }
 
     public boolean removePage(String url) {
@@ -108,11 +124,8 @@ public class BrowserModel {
     private void destroyCurrentPage() {
         WebpManager page = getCurrentPage();
         if (Utilities.isNotNull(page)) {
-            View view = page.getWebView();
-            if (view instanceof WebView) {
-                ((WebView) view).destroy();
-                mPages.remove(page);
-            }
+            page.destroy();
+            mPages.remove(page);
             mCurrentPage = null;
         }
     }

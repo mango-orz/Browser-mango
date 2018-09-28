@@ -8,22 +8,16 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.BrowseActivity">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/ll_action_bar">
+        android:layout_height="match_parent"/>
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_above="@+id/ll_action_bar"
+        android:background="@drawable/shadow"/>
 
     <ProgressBar
         android:id="@+id/progress"
@@ -35,11 +29,6 @@
         android:progressDrawable="@drawable/progress"
         android:visibility="gone"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_above="@+id/ll_action_bar"
-        android:background="@drawable/shadow"/>
     <!-- 底部action 栏-->
     <FrameLayout
         android:id="@+id/ll_action_bar"

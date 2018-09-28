@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
 
     private BrowserModel mModel;
     private ActionModel mActionModel;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     private void setView() {
         mContainer = findViewById(R.id.container);
         mProgressBar = findViewById(R.id.progress);
-        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
     }
 
     private void setListener() {
@@ -60,11 +57,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         findViewById(R.id.ic_recents).setOnClickListener(this);
         findViewById(R.id.iv_marker).setOnClickListener(this);
         findViewById(R.id.iv_menu).setOnClickListener(this);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            if (!mModel.isHomePage()) {
-                mModel.reload();
-            }
-        });
     }
 
     private void setValue() {
@@ -89,7 +81,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         mContainer.addView(view);
 
         mProgressBar.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setEnabled(false);
     }
 
     public void loadUrl(String url) {
@@ -103,10 +94,6 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
         @Override
         public void onPageStarted(String url, Bitmap favicon) {
             mProgressBar.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setEnabled(true);
-            if (mSwipeRefreshLayout.isRefreshing()) {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
         }
 
         @Override

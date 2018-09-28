@@ -41,8 +41,8 @@ class MyWebViewClient extends WebViewClient {
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        super.onPageStarted(view, url, favicon);
         Log.i(TAG, "onPageStarted");
-
         OnPageCallback callback = mCallback.getOnPageCallback();
         if (Utilities.isNotNull(callback)) {
             callback.onPageStarted(view, url, favicon);
@@ -51,6 +51,7 @@ class MyWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
         Log.i(TAG, "onPageFinished");
 
         OnPageCallback callback = mCallback.getOnPageCallback();
@@ -190,6 +191,7 @@ class MyWebViewClient extends WebViewClient {
     @Override
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
         super.onScaleChanged(view, oldScale, newScale);
+        Log.e(TAG, "oldScale:" + oldScale + " == newScale:" + newScale);
     }
 
     @Override

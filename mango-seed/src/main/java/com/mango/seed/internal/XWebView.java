@@ -10,17 +10,15 @@ import com.mango.seed.XWebViewCallback;
 import com.mango.seed.client.ChromeCallback;
 import com.mango.seed.client.OnPageCallback;
 
-import java.util.regex.Pattern;
-
 /**
  * 原生Webkit实现
+ * TODO 添加下拉刷新功能
+ * TODO 左右滑动 前进后退
  *
  * @author tic
  * created on 18-9-21
  */
 public class XWebView extends WebView implements XWebViewCallback {
-
-    private static final Pattern WEBVIEW_VERSION_PATTERN = Pattern.compile("(Chrome/)([\\d\\.]+)\\s");
 
     private OnPageCallback mOnPageCallback;
     private ChromeCallback mChromeCallback;
@@ -36,11 +34,10 @@ public class XWebView extends WebView implements XWebViewCallback {
 
         WebSettings settings = getSettings();
         initializeSettings(settings);
-        
+
         if (Utilities.ATLEAST_O) {
             setRendererPriorityPolicy(RENDERER_PRIORITY_BOUND, true);
         }
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -56,6 +53,13 @@ public class XWebView extends WebView implements XWebViewCallback {
         settings.setGeolocationEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
+
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        setVerticalScrollBarEnabled(false);
+        setHorizontalScrollBarEnabled(false);
+        setVerticalScrollbarOverlay(false);
+        setHorizontalScrollbarOverlay(false);
+
     }
 
     @Override
@@ -76,5 +80,10 @@ public class XWebView extends WebView implements XWebViewCallback {
     @Override
     public OnPageCallback getOnPageCallback() {
         return mOnPageCallback;
+    }
+
+    @Override
+    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
     }
 }
