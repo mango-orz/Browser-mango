@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.browser.mango.R;
 import com.mango.seed.Utilities;
@@ -25,6 +26,9 @@ public class ActionModel {
         mMenuDialog = new MaterialDialog
                 .Builder(activity)
                 .customView(R.layout.dialog_menu, false)
+                .cancelable(true)
+                .canceledOnTouchOutside(true)
+                .contentGravity(GravityEnum.END)
                 .show();
     }
 

@@ -201,6 +201,7 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
             case R.id.iv_marker:
                 break;
             case R.id.iv_menu:
+                mActionModel.showMenuDialog(this);
                 break;
             default:
                 break;
