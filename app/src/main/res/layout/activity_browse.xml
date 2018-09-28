@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_activity"
     android:fitsSystemWindows="true"
     tools:context=".ui.BrowseActivity">
-
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -29,11 +29,17 @@
         android:id="@+id/progress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="2dp"
         android:layout_above="@+id/ll_action_bar"
-        android:progress="10"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress"
         android:visibility="gone"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_above="@+id/ll_action_bar"
+        android:background="@drawable/shadow"/>
     <!-- 底部action 栏-->
     <FrameLayout
         android:id="@+id/ll_action_bar"

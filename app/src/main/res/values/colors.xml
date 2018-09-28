@@ -4,9 +4,15 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="bg_activity">#FEFEFE</color>
     <color name="bg_icon">#F2F3F5</color>
     <color name="text">#747474</color>
 
-    <color name="progress">#A3CCFE</color>
+    <color name="progress">#7cb6fe</color>
+    <color name="progress_secondary">#90c1fe</color>
+
+    <color name="shadow_end">#FEFEFE</color>
+    <color name="shadow_center">#ECECEC</color>
+    <color name="shadow_start">#E9E9E9</color>
 
 </resources>
