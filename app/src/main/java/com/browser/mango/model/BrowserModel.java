@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
@@ -96,16 +95,7 @@ public class BrowserModel {
 
         }
 
-        View webView = manager.getWebView();
-        // wrap refresh view
-        final SwipeRefreshLayout swipeRefreshLayout = new SwipeRefreshLayout(mActivity);
-        swipeRefreshLayout.setEnabled(true);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            manager.reload();
-            webView.postDelayed(()-> swipeRefreshLayout.setRefreshing(false), 500L);
-        });
-        swipeRefreshLayout.addView(webView);
-        return swipeRefreshLayout;
+        return manager.getRoot();
     }
 
     public boolean removePage(String url) {
@@ -189,6 +179,30 @@ public class BrowserModel {
             if (Utilities.isNotNull(mCallback)) {
                 mCallback.onAppUriDetected(parse);
             }
+        }
+
+        @Override
+        public void onGoBack() {
+            if (canGoBack()) {
+                goBack();
+            }
+        }
+
+        @Override
+        public void onForward() {
+            if (canForward()) {
+                forward();
+            }
+        }
+
+        @Override
+        public void onBacking(float xDiff) {
+
+        }
+
+        @Override
+        public void onForwarding(float xDiff) {
+
         }
     };
 

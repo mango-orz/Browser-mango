@@ -53,6 +53,7 @@ class MyWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         Log.i(TAG, "onPageFinished");
+        view.getSettings().setLoadsImagesAutomatically(true);
 
         OnPageCallback callback = mCallback.getOnPageCallback();
         if (Utilities.isNotNull(callback)) {

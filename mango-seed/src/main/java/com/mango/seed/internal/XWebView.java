@@ -12,7 +12,6 @@ import com.mango.seed.client.OnPageCallback;
 
 /**
  * 原生Webkit实现
- * TODO 添加下拉刷新功能
  * TODO 左右滑动 前进后退
  *
  * @author tic
@@ -43,7 +42,6 @@ public class XWebView extends WebView implements XWebViewCallback {
     @SuppressLint("SetJavaScriptEnabled")
     private void initializeSettings(WebSettings settings) {
         settings.setJavaScriptEnabled(true);
-
         // configure local storage apis and their database paths.
         settings.setAppCachePath(Utilities.getAppCacheDir(getContext()));
         settings.setDatabasePath(Utilities.getDatabaseDir(getContext()));
@@ -53,13 +51,24 @@ public class XWebView extends WebView implements XWebViewCallback {
         settings.setGeolocationEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setLoadsImagesAutomatically(false);
 
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
         setVerticalScrollbarOverlay(false);
         setHorizontalScrollbarOverlay(false);
-
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        // 安全配置
+        // 禁止明文保存密码
+        settings.setSavePassword(false);
+        settings.setAllowFileAccess(false);
+        // 如果开放该配置需要 TODO file域限制 file:///xxx.html, 检查file域js代码是否有操作数据库
+        settings.setAllowFileAccessFromFileURLs(false);
+        settings.setAllowUniversalAccessFromFileURLs(false);
+        // 移除有漏洞的本地接口
+        removeJavascriptInterface("searchBoxJavaBridge_");
+        removeJavascriptInterface("accessibility");
+        removeJavascriptInterface("accessibilityTraversal");
     }
 
     @Override

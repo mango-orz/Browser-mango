@@ -63,4 +63,12 @@ public interface ChromeCallback {
      * @param parse
      */
     void onAppUriDetected(Uri parse);
+
+    void onGoBack();
+
+    void onForward();
+
+    void onBacking(float xDiff);
+
+    void onForwarding(float xDiff);
 }

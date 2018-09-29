@@ -169,7 +169,7 @@ public class BrowseActivity extends BaseCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         if (mModel.canGoBack()) {
             mModel.goBack();
-        } else if (mModel.getCurrentPage().getWebView() != null) {
+        } else if (mModel.getCurrentPage() != null) {
             loadHomePage();
         } else {
             super.onBackPressed();
