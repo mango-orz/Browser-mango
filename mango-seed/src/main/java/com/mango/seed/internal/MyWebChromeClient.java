@@ -75,7 +75,7 @@ class MyWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-        Log.i(TAG, "onJsAlert:" + message + " ===> " + result);
+        Log.e(TAG, "onJsAlert:" + message + " ===> " + result);
         return super.onJsAlert(view, url, message, result);
     }
 
@@ -99,7 +99,7 @@ class MyWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-        Log.i(TAG, "onConsoleMessage:" + consoleMessage);
+        Log.e(TAG, "onConsoleMessage:" + consoleMessage);
         return super.onConsoleMessage(consoleMessage);
     }
 

@@ -42,7 +42,7 @@ class MyWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        Log.i(TAG, "onPageStarted");
+        Log.i(TAG, "onPageStarted:" + url);
         OnPageCallback callback = mCallback.getOnPageCallback();
         if (Utilities.isNotNull(callback)) {
             callback.onPageStarted(view, url, favicon);
@@ -52,7 +52,7 @@ class MyWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        Log.i(TAG, "onPageFinished");
+        Log.i(TAG, "onPageFinished:" + url);
         view.getSettings().setLoadsImagesAutomatically(true);
 
         OnPageCallback callback = mCallback.getOnPageCallback();
@@ -64,27 +64,27 @@ class MyWebViewClient extends WebViewClient {
     @Override
     public void onLoadResource(WebView view, String url) {
         super.onLoadResource(view, url);
-        Log.i(TAG, "onLoadResource:" + url);
+        Log.d(TAG, "onLoadResource:" + url);
     }
 
     @Nullable
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-        Log.i(TAG, "shouldInterceptRequest");
+        Log.d(TAG, "shouldInterceptRequest");
         return super.shouldInterceptRequest(view, request);
     }
 
     @Nullable
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-        Log.i(TAG, "shouldInterceptRequest");
+        Log.d(TAG, "shouldInterceptRequest");
         return super.shouldInterceptRequest(view, url);
     }
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         view.loadUrl(url);
-        Log.i(TAG, "shouldOverrideUrlLoading");
+        Log.d(TAG, "shouldOverrideUrlLoading");
         return true;
     }
 
